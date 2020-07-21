@@ -1,0 +1,180 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dockerfile常用语法 | Yu</title><meta name="description" content="格式 指令 参数 Dockerfile 无视大小写，但是代码规范中要求指令名大写，参数小写 Dockerfile是按顺序执行的 Dockerfile中第一个有效指令必须为 From，用来指定基础镜像  常用指令FROMFROM 指令是最为重要的一个，并且必须为 Dockerfile 文件开篇的第一个非注释行，用于为镜像文件构建过程指定基础镜像，后续的指令运行于此基础镜像提供的运行环境 这个镜像可以"><meta name="keywords" content="Docker"><meta name="author" content="余旭东"><meta name="copyright" content="余旭东"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yuxudong.top/2019/11/24/Dockerfile%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="Dockerfile常用语法"><meta property="og:url" content="https://yuxudong.top/2019/11/24/Dockerfile%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/"><meta property="og:site_name" content="Yu"><meta property="og:description" content="格式 指令 参数 Dockerfile 无视大小写，但是代码规范中要求指令名大写，参数小写 Dockerfile是按顺序执行的 Dockerfile中第一个有效指令必须为 From，用来指定基础镜像  常用指令FROMFROM 指令是最为重要的一个，并且必须为 Dockerfile 文件开篇的第一个非注释行，用于为镜像文件构建过程指定基础镜像，后续的指令运行于此基础镜像提供的运行环境 这个镜像可以"><meta property="og:image" content="https://yuxudong.top/img/cover/cover_7.jpg"><meta property="article:published_time" content="2019-11-24T14:01:12.000Z"><meta property="article:modified_time" content="2019-11-24T14:01:40.927Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="prev" title="AQS" href="https://yuxudong.top/2019/12/02/AQS/"><link rel="next" title="布隆过滤器" href="https://yuxudong.top/2019/11/21/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">28</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#格式"><span class="toc-number">1.</span> <span class="toc-text">格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用指令"><span class="toc-number">2.</span> <span class="toc-text">常用指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#FROM"><span class="toc-number">2.0.1.</span> <span class="toc-text">FROM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MAINTAINER（弃用）"><span class="toc-number">2.0.2.</span> <span class="toc-text">MAINTAINER（弃用）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LABEL"><span class="toc-number">2.0.3.</span> <span class="toc-text">LABEL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#COPY"><span class="toc-number">2.0.4.</span> <span class="toc-text">COPY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ADD"><span class="toc-number">2.0.5.</span> <span class="toc-text">ADD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WORKDIR"><span class="toc-number">2.0.6.</span> <span class="toc-text">WORKDIR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ENTRYPOINT"><span class="toc-number">2.0.7.</span> <span class="toc-text">ENTRYPOINT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ENV"><span class="toc-number">2.0.8.</span> <span class="toc-text">ENV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ARG"><span class="toc-number">2.0.9.</span> <span class="toc-text">ARG</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-number">3.</span> <span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#COPY-与-ADD-命令的异同"><span class="toc-number">3.1.</span> <span class="toc-text"># COPY 与 ADD 命令的异同</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、COPY-和-ADD-命令不能拷贝上下文之外的本地文件"><span class="toc-number">3.1.1.</span> <span class="toc-text">1、COPY 和 ADD 命令不能拷贝上下文之外的本地文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、可以认为-ADD-是-COPY-的加强版"><span class="toc-number">3.1.2.</span> <span class="toc-text">2、可以认为 ADD 是 COPY 的加强版</span></a></li></ol></li></ol></li></ol></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover/cover_7.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Yu</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Dockerfile常用语法</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2019-11-24 22:01:12"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2019-11-24</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2019-11-24 22:01:40"><i class="fas fa-history fa-fw"></i> 更新于 2019-11-24</span></time></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta__icon"></i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><ul>
+<li>指令 参数</li>
+<li>Dockerfile 无视大小写，但是代码规范中要求指令名大写，参数小写</li>
+<li>Dockerfile是按顺序执行的</li>
+<li>Dockerfile中第一个有效指令必须为 <strong><code>From</code></strong>，用来指定基础镜像</li>
+</ul>
+<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><h4 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h4><p>FROM 指令是最为重要的一个，并且必须为 Dockerfile 文件开篇的第一个非注释行，用于为镜像文件构建过程指定基础镜像，后续的指令运行于此基础镜像提供的运行环境</p>
+<p>这个镜像可以是任何可用镜像，默认情况下 docker build 会从本地仓库找指定的镜像文件，如果不存在就会从 Docker Hub 上拉取</p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不指定版本的情况下默认为 latest</span></span><br><span class="line"><span class="keyword">FROM</span> &lt;image&gt;</span><br><span class="line"><span class="keyword">FROM</span> &lt;imgae&gt;:&lt;tag&gt;</span><br><span class="line"><span class="keyword">FROM</span> &lt;image&gt;@&lt;digest&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="MAINTAINER（弃用）"><a href="#MAINTAINER（弃用）" class="headerlink" title="MAINTAINER（弃用）"></a>MAINTAINER（弃用）</h4><p>Dockerfile 的制作者提供的本人详细信息</p>
+<p>Dockerfile 不限制 MAINTAINER 出现的位置，但是推荐放到 FROM 指令之后</p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MAINTAINER</span> &lt;name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>name 可以是任何文本信息，一般用作者名称或者邮箱</p>
+<h4 id="LABEL"><a href="#LABEL" class="headerlink" title="LABEL"></a>LABEL</h4><p>给镜像指定各种元数据</p>
+<p>语法</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LABEL</span><span class="bash"> &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...</span></span><br></pre></td></tr></table></figure>
+
+<p>一个 Dockerfile 可以写多个 LABEL，但是不推荐这么做，Dockerfile 每一条指令都会生成一层镜像，如果 LABEL 太长可以使用 <code>\</code>  符号换行。构建的镜像会继承基础镜像的 LABEL，并且会去掉重复的，但如果值不同，则后面的值会覆盖前面的值</p>
+<h4 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h4><p>用于从宿主机复制文件到创建的新镜像文件</p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="bash"> &lt;src&gt;...&lt;dest&gt;</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> [<span class="string">"&lt;src&gt;"</span>,...<span class="string">"&lt;dest&gt;"</span>]</span></span><br><span class="line"><span class="comment"># &lt;src&gt;: 要复制的源文件或者目录，可以使用通配符</span></span><br><span class="line"><span class="comment"># &lt;dest&gt;: 目标路径，即正在创建的image的文件系统路径；建议&lt;dest&gt;使用绝对路径，否则COPY指令则以WORKDIR为起始路径</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h4><p>基本用法和COPY一样，ADD支持使用 TAR 文件和 URL 路径</p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ADD</span><span class="bash"> &lt;src&gt;...&lt;dest&gt;</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> [<span class="string">"&lt;src&gt;"</span>,...<span class="string">"&lt;dest&gt;"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>规则：</p>
+<ul>
+<li>和 COPY 规则相同</li>
+<li>如果 <code>&lt;src&gt;</code> 为URL 并且 <code>&lt;dest&gt;</code> 没有以 <code>/</code> 结尾，则 <code>&lt;src&gt;</code> 指定的文件将被下载到 <code>&lt;dest&gt;</code> </li>
+<li>如果 <code>&lt;src&gt;</code> 是一个本地系统上压缩格式的 <code>tar</code> 文件，它会展开成一个目录；但是通过 URL 获取的 <code>tar</code> 文件不会自动展开</li>
+<li>如果 <code>&lt;src&gt;</code> 有多个，直接或间接使用了通配符指定多个资源，则 <code>&lt;dest&gt;</code> 必须是目录并且以 <code>/</code> 结尾</li>
+</ul>
+<h4 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h4><p>用于为 Dockerfile 中所有的 RUN、CMD、ENTRYPOINT、COPY 和 ADD 指定设定工作目录，只会影响当前 WORKDIR 之后的指令</p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> &lt;dirpath&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在 Dockerfile 文件中，WORKDIR 可以出现多次，路径可以是相对路径，但是它是相对于前一个 WORKDIR 指令指定的路径</p>
+<p>另外，WORKDIR 可以是 ENV 指定定义的变量</p>
+<h4 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h4><p>类似于 CMD 指令功能，用于给容器指定默认运行程序</p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> &lt;<span class="built_in">command</span>&gt;</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"&lt;executable&gt;"</span>, <span class="string">"&lt;param1&gt;"</span>, <span class="string">"&lt;param2&gt;"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>和 CMD 不同的是 ENTRYPOINT 启动的程序不会被 docker run 命令指定的参数所覆盖，而且，这些命令行参数会被当做参数传递给 ENTRYPOINT 指定的程序（但是，docker run 命令的 <code>--entrypoint</code> 参数可以覆盖 ENTRYPOINT）</p>
+<p>docker run 命令传入的参数会覆盖 CMD 指令的内容并且附加到 ENTRYPOINT 命令最后作为其参数使用</p>
+<p>同样，Dockerfile 中可以存在多个 ENTRYPOINT 指令，但是只有最后一个会生效</p>
+<p>Dockerfile 中如果既有 CMD 又有 ENTRYPOINT，并且 CMD 是一个完整可执行命令，那么谁在最后谁生效</p>
+<h4 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h4><p>用来给镜像定义所需要的环境变量，并且可以被 Dockerfile 文件中位于其后的其他指令（如 <code>ENV</code>、<code>ADD</code>、<code>COPY</code>等）所调用，调用格式：<code>$variable_name</code> 或者 <code>${variable_naem}</code></p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> &lt;key&gt; &lt;value&gt;</span><br><span class="line"><span class="keyword">ENV</span> &lt;key&gt;=&lt;value&gt;...</span><br></pre></td></tr></table></figure>
+
+<p>第一种格式中，<code>&lt;key&gt;</code> 之后的所有内容都会被视为 <code>&lt;value&gt;</code> 的组成部分，所以一次只能设置一个变量</p>
+<p>第二种格式可以一次设置多个变量，如果 <code>&lt;value&gt;</code> 当中有空格可以使用 <code>\</code> 进行转义或者对 <code>&lt;value&gt;</code> 加引号进行标识；另外 <code>\</code> 也可以用来续行</p>
+<h4 id="ARG"><a href="#ARG" class="headerlink" title="ARG"></a>ARG</h4><p>用法同 ENV </p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ARG</span> &lt;name&gt; [=&lt;default value&gt;]</span><br></pre></td></tr></table></figure>
+
+<p>指定一个变量，可以在 <code>docker build</code> 创建镜像的时候，使用 <code>--build-arg &lt;varname&gt;=&lt;value&gt;</code> 来指定参数</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="COPY-与-ADD-命令的异同"><a href="#COPY-与-ADD-命令的异同" class="headerlink" title="# COPY 与 ADD 命令的异同"></a><font color="green">#</font> COPY 与 ADD 命令的异同</h3><h4 id="1、COPY-和-ADD-命令不能拷贝上下文之外的本地文件"><a href="#1、COPY-和-ADD-命令不能拷贝上下文之外的本地文件" class="headerlink" title="1、COPY 和 ADD 命令不能拷贝上下文之外的本地文件"></a>1、COPY 和 ADD 命令不能拷贝上下文之外的本地文件</h4><p>对于 COPY 和 ADD 命令来说，如果要把本地的文件拷贝到镜像中，那么本地的文件必须是在上下文目录中的文件。因为在执行 build 命令时，docker 客户端会把上下文中所有文件发给 docker daemon。考虑 docker 客户端和 docker daemon 不在同一台机器上的情况，build 命令只能从上下文中获取文件。如果在 Dockerfile 的 COPY 和 ADD 命令中引用了上下文中没有的文件，则会报错。</p>
+<h4 id="2、可以认为-ADD-是-COPY-的加强版"><a href="#2、可以认为-ADD-是-COPY-的加强版" class="headerlink" title="2、可以认为 ADD 是 COPY 的加强版"></a>2、可以认为 ADD 是 COPY 的加强版</h4><p>ADD 命令支持<strong>将远程 URL 的资源加入到镜像的文件系统</strong>。</p>
+<p>当要读取 URL 远程资源的时候，<strong>并不推荐使用 ADD 指令</strong>，而是推荐使用 RUN 指令，在 RUN 指令中执行 <code>wget</code> 或 <code>curl</code> 命令。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>对于从远程 URL 获取资源的情况，由于 ADD 指令不支持认证，如果从远程获取资源需要认证，则只能使用 <code>RUN wget</code> 或 <code>RUN curl</code> 替代。</li>
+<li>如果源路径的资源发生变化，则该 ADD 指令将使 Docker Cache 失效，Dockerfile 中后续的所有指令都不能使用缓存。因此 <strong>尽量将 ADD 指令放在 Dockerfile 的后面</strong>。</li>
+<li>源路径可以有多个</li>
+<li>源路径是<strong>相对于执行build的相对路径</strong></li>
+<li>源路径如果是本地路径，必须是 build 上下文中的路径</li>
+<li>源路径如果是一个目录，则该目录下的所有内容都将被加入到容器，但是该目录本身不会</li>
+<li>目标路径必须是绝对路径，或相对于 <code>WORKDIR</code> 的相对路径</li>
+<li>目标路径如果不存在，则会创建相应的完整路径</li>
+<li>目标路径如果不是一个文件，则必须使用 <code>/</code> 结束</li>
+<li>路径中可以使用通配符</li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">余旭东</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yuxudong.top/2019/11/24/Dockerfile%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/">https://yuxudong.top/2019/11/24/Dockerfile%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yuxudong.top" target="_blank">Yu</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Docker/">Docker</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/cover_10.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/12/02/AQS/"><img class="prev-cover" data-src="/img/cover/cover_8.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">AQS</div></div></a></div><div class="next-post pull-right"><a href="/2019/11/21/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/"><img class="next-cover" data-src="/img/cover/cover_3.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">布隆过滤器</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By 余旭东</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button class="translate_chn_to_cht" id="translateLink" title="简繁转换">繁</button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script></body></html>

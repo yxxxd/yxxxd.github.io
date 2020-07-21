@@ -1,0 +1,191 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>面经--神策数据电话一面 | Yu</title><meta name="description" content="面试之前，我又特地去了解一下这家公司，据说这家公司18年秋招的 hc 就非常少，春招我估计只有个位数的 hc，但是我还是抱着面经++的心态来面对这次面试。   本来说好的是4:30开始面试，35分来电话的时候我心里一惊，然后告诉我我要拖到五点，难道这家公司多出几个面试官的钱都出不起吗。很快五点就到了，早就听闻面试官是个女的，果不其然，虽然我对程序媛并没什么感觉。   一开始，并没有让我自我介绍"><meta name="keywords" content="面经"><meta name="author" content="余旭东"><meta name="copyright" content="余旭东"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yuxudong.top/2019/03/20/%E9%9D%A2%E7%BB%8F-%E7%A5%9E%E7%AD%96%E6%95%B0%E6%8D%AE%E7%94%B5%E8%AF%9D%E4%B8%80%E9%9D%A2/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="面经--神策数据电话一面"><meta property="og:url" content="https://yuxudong.top/2019/03/20/%E9%9D%A2%E7%BB%8F-%E7%A5%9E%E7%AD%96%E6%95%B0%E6%8D%AE%E7%94%B5%E8%AF%9D%E4%B8%80%E9%9D%A2/"><meta property="og:site_name" content="Yu"><meta property="og:description" content="面试之前，我又特地去了解一下这家公司，据说这家公司18年秋招的 hc 就非常少，春招我估计只有个位数的 hc，但是我还是抱着面经++的心态来面对这次面试。   本来说好的是4:30开始面试，35分来电话的时候我心里一惊，然后告诉我我要拖到五点，难道这家公司多出几个面试官的钱都出不起吗。很快五点就到了，早就听闻面试官是个女的，果不其然，虽然我对程序媛并没什么感觉。   一开始，并没有让我自我介绍"><meta property="og:image" content="https://yuxudong.top/img/cover/cover_5.jpg"><meta property="article:published_time" content="2019-03-20T10:34:30.000Z"><meta property="article:modified_time" content="2019-11-21T15:16:55.108Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="prev" title="Http状态码" href="https://yuxudong.top/2019/03/21/Http%E7%8A%B6%E6%80%81%E7%A0%81/"><link rel="next" title="数据库设计的五大范式" href="https://yuxudong.top/2019/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%BA%94%E5%A4%A7%E8%8C%83%E5%BC%8F/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: false
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">28</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover/cover_5.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Yu</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">面经--神策数据电话一面</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2019-03-20 18:34:30"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2019-03-20</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2019-11-21 23:16:55"><i class="fas fa-history fa-fw"></i> 更新于 2019-11-21</span></time></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta__icon"></i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>  面试之前，我又特地去了解一下这家公司，据说这家公司18年秋招的 hc 就非常少，春招我估计只有个位数的 hc，但是我还是抱着面经++的心态来面对这次面试。</p>
+<p>  本来说好的是4:30开始面试，35分来电话的时候我心里一惊，然后告诉我我要拖到五点，难道这家公司多出几个面试官的钱都出不起吗。很快五点就到了，早就听闻面试官是个女的，果不其然，虽然我对程序媛并没什么感觉。</p>
+<p>  一开始，并没有让我自我介绍，面试官似乎并不怎么看我的简历。下面开始说问到的问题：</p>
+<ol>
+<li><p>HashMap 的数据结构</p>
+<p>这个稍微看过源码的人都应该知道是 <font color="red">数组+链表</font>，Java8开始引入了红黑树，因此1.8之后是<font color="red">数组+链表+红黑树</font></p>
+</li>
+</ol>
+<ol start="2">
+<li><p>让我实现HashMap</p>
+<p>我就大概说了一下数据结构，put方法大概说了一下，然后面试官就没有让我往下说了，感觉自己表达可能的并不是很清楚。</p>
+</li>
+</ol>
+<ol start="3">
+<li><p>到这里开始问了JVM，首先问的是内存模型</p>
+<p>内存模型我就答了虚拟机栈，本地方法栈，Java堆和方法区，面试官并没有问的特别深。</p>
+</li>
+</ol>
+<ol start="4">
+<li><p>Java new出来的对象存放在哪里</p>
+<p>这题已经是很基础了，我答的是存在堆里面</p>
+</li>
+</ol>
+<ol start="5">
+<li><p>垃圾收集算法</p>
+<ul>
+<li><p>标记清除</p>
+</li>
+<li><p>复制</p>
+</li>
+<li><p>标记整理</p>
+</li>
+<li><p>分代收集</p>
+</li>
+</ul>
+</li>
+</ol>
+<ol start="6">
+<li><p>虚拟机控制内存的参数是什么</p>
+<p>初始内存：-Xms</p>
+<p>最大内存：-Xmx</p>
+</li>
+</ol>
+<ol start="7">
+<li><p>如何查看jvm虚拟机的进程</p>
+<p>jps</p>
+</li>
+</ol>
+<ol start="8">
+<li><p>如何杀死一个Java进程</p>
+<p>kill</p>
+</li>
+</ol>
+<ol start="9">
+<li><p>如何查看虚拟机的内存使用情况</p>
+<p>这里我回答的是使用 jconsole 和 visualVM工具</p>
+</li>
+</ol>
+<ol start="10">
+<li><p>给我十亿条整数数据在32位系统上面进行去重</p>
+<p>面试前我就听说这个这个女面试官喜欢问这个问题，果不其然。</p>
+<p>我的思路是对 hash 值对N取模，然后分别放到N个文件中，这样所有的相同的数据就一定在同一个文件中，然后分别对这些文件去重。这样能大大地提高去重的效率。</p>
+<p>我以为我答的还不错，然后面试官又补充了一句：如果十亿数据里面有非常大的一部分都是重复的，那又该如何处理？</p>
+<p>对于这个问题当时并没有想到合适的答案，但如今回想起来，应该使用<code>bitmap</code></p>
+</li>
+</ol>
+<ol start="11">
+<li><p>问我懂不懂SpringMVC，Nginx</p>
+<p>niginx了解的不是很多，不敢说懂，只说了懂SpringMVC。然后面试官让我讲SpringMVC，当时有点懵，SpringMVC的东西也不少，到底想让我讲一些什么。总之这一部分答得不太好，主要感觉问的问题太泛了，只希望面试官可以问的稍微具体一点</p>
+</li>
+</ol>
+<ol start="12">
+<li><p>数据库的话就问了我MySQL的数据结构</p>
+<p>数据结构的话肯定就要答B+树了，然后面试官让我讲一下B+树，这个地方我答的不太好，总之是基础打的不够牢固吧。这个知识点下次会进行总结。</p>
+</li>
+</ol>
+<ol start="13">
+<li><p>Http的状态码</p>
+<p>很惭愧只能说出最经常碰见的几个：</p>
+<ul>
+<li>200（请求成功）</li>
+<li>404（没找到请求的页面）</li>
+<li>500（服务器程序出错）</li>
+</ul>
+<p>但是当面试官问我知不知道以3开头的状态码，这个我确实没有特意去记过，很遗憾。</p>
+</li>
+</ol>
+<ol start="14">
+<li><p>接下来就是紧张刺激的手撕代码的环节了，这个环节撕得我有点痛苦（算法有点硬伤）</p>
+<p>问题是给我一个非完全二叉树，要求奇数层从左往右层序遍历，偶数层从右往左遍历。我大致思路有了，但是时间有点紧迫，最后讲的并不是特别好，面试官最后赶时间就结束了</p>
+</li>
+</ol>
+<p>最后面试官让我等HR通知，大约过了半个小时，我邮箱的垃圾箱里面就出现了一封拒信。有点透心凉，但是心里多少有底，只能说是面经+1了。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">余旭东</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yuxudong.top/2019/03/20/%E9%9D%A2%E7%BB%8F-%E7%A5%9E%E7%AD%96%E6%95%B0%E6%8D%AE%E7%94%B5%E8%AF%9D%E4%B8%80%E9%9D%A2/">https://yuxudong.top/2019/03/20/%E9%9D%A2%E7%BB%8F-%E7%A5%9E%E7%AD%96%E6%95%B0%E6%8D%AE%E7%94%B5%E8%AF%9D%E4%B8%80%E9%9D%A2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yuxudong.top" target="_blank">Yu</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E7%BB%8F/">面经</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/cover_10.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/03/21/Http%E7%8A%B6%E6%80%81%E7%A0%81/"><img class="prev-cover" data-src="/img/cover/cover_8.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Http状态码</div></div></a></div><div class="next-post pull-right"><a href="/2019/03/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%BA%94%E5%A4%A7%E8%8C%83%E5%BC%8F/"><img class="next-cover" data-src="/img/cover/cover_2.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据库设计的五大范式</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By 余旭东</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button class="translate_chn_to_cht" id="translateLink" title="简繁转换">繁</button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script></body></html>
