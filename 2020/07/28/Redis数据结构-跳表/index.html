@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Redis数据结构-跳表 | Yu</title><meta name="description" content="跳表是 有序集合的底层实现之一 定义跳表节点 zskiplistNode123456789101112131415typedef struct zskiplistNode &amp;#123;    &#x2F;&#x2F; 成员对象    robj *obj;    &#x2F;&#x2F; 分值    double score;    &#x2F;&#x2F; 后退指针    struct zskiplistNode *backward;    &#x2F;&#x2F; 层"><meta name="keywords" content="Redis"><meta name="author" content="余旭东"><meta name="copyright" content="余旭东"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://yuxudong.top/2020/07/28/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%A1%A8/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><meta property="og:type" content="article"><meta property="og:title" content="Redis数据结构-跳表"><meta property="og:url" content="https://yuxudong.top/2020/07/28/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%A1%A8/"><meta property="og:site_name" content="Yu"><meta property="og:description" content="跳表是 有序集合的底层实现之一 定义跳表节点 zskiplistNode123456789101112131415typedef struct zskiplistNode &amp;#123;    &#x2F;&#x2F; 成员对象    robj *obj;    &#x2F;&#x2F; 分值    double score;    &#x2F;&#x2F; 后退指针    struct zskiplistNode *backward;    &#x2F;&#x2F; 层"><meta property="og:image" content="https://yuxudong.top/img/cover/cover_3.jpg"><meta property="article:published_time" content="2020-07-28T11:19:55.000Z"><meta property="article:modified_time" content="2020-07-28T11:20:43.804Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="prev" title="Redis数据结构-intset" href="https://yuxudong.top/2020/07/29/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-intset/"><link rel="next" title="Redis数据结构-字典" href="https://yuxudong.top/2020/07/27/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AD%97%E5%85%B8/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">36</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div></div></div></div><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#跳表节点-zskiplistNode"><span class="toc-number">1.1.</span> <span class="toc-text">跳表节点 zskiplistNode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跳表-zskiplist"><span class="toc-number">1.2.</span> <span class="toc-text">跳表 zskiplist</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zset"><span class="toc-number">2.</span> <span class="toc-text">zset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol></div></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><header class="post-bg" id="page-header" style="background-image: url(/img/cover/cover_3.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Yu</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Redis数据结构-跳表</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-07-28 19:19:55"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2020-07-28</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-07-28 19:20:43"><i class="fas fa-history fa-fw"></i> 更新于 2020-07-28</span></time></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"></span><span class="post-meta-commentcount"></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>跳表是 有序集合的底层实现之一</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><h3 id="跳表节点-zskiplistNode"><a href="#跳表节点-zskiplistNode" class="headerlink" title="跳表节点 zskiplistNode"></a>跳表节点 zskiplistNode</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="keyword">double</span> score;</span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>robj</code>：保存的对象</li>
+<li><code>score</code>：对象的分值</li>
+<li><code>backward</code>：指向前一个节点的指针</li>
+<li><code>level</code>：层。每次创建一个跳表节点时，程序会根据幂次定律（越大的数字出现的概率越小）随机生成一个介于1~32之间的值作为 <code>level</code> 数组的大小，这个大小就是层的高度<ul>
+<li><code>level.forward</code>：前进指针，指向下一个同层的节点</li>
+<li><code>level.span</code>：跨度，当前节点和前进指针指向的节点的距离，主要用途是计算排位</li>
+</ul>
+</li>
+</ul>
+<h3 id="跳表-zskiplist"><a href="#跳表-zskiplist" class="headerlink" title="跳表 zskiplist"></a>跳表 zskiplist</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="keyword">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>header</code>、<code>tail</code>：分别指向头节点和尾节点</li>
+<li><code>length</code>：表中节点的数量</li>
+<li><code>level</code>：记录表中最高层的节点的层数，不算头节点</li>
+</ul>
+<p>多个 <code>zskiplistNode</code> 组成一个跳表，而 <code>zskiplist</code> 结构则保存了跳表的关键信息，使程序可以更方便的操作跳表</p>
+<p><code>zskiplist</code> 的头节点指向一个高度为32的空节点，方便高层跳跃</p>
+<p><img src= "/img/loading.gif" data-src="/2020/07/28/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%A1%A8/Users/91089/Desktop/%E7%AC%94%E8%AE%B0/redis/img/p7.png" alt></p>
+<h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 字典，键为成员，值为分值</span></span><br><span class="line">    <span class="comment">// 用于支持 O(1) 复杂度的按成员取分值操作</span></span><br><span class="line">    dict *dict;</span><br><span class="line">    <span class="comment">// 跳跃表，按分值排序成员</span></span><br><span class="line">    <span class="comment">// 用于支持平均复杂度为 O(log N) 的按分值定位成员操作</span></span><br><span class="line">    <span class="comment">// 以及范围操作</span></span><br><span class="line">    zskiplist *zsl;</span><br><span class="line">&#125; zset;</span><br></pre></td></tr></table></figure>
+
+<p>跳表是zset的底层实现之一。</p>
+<p>尽管跳表可以快速的按照分值定位成员，但是这样的需求远远不够满足 zset 的定义。zset 是一个有序集合，不仅各个节点要按照 score 排序，还必须保证所有节点的成员对象 <code>obj</code> 唯一。因此 zset 以 <code>dict</code> 和 跳表两种数据结构配合使用，满足了有序集合这个定义，而且能以较低的时间复杂度实现增删改查等操作。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>跳跃表是有序集合的底层实现之一</li>
+<li>Redis的跳跃表实现由zskiplist和zskiplistNode两个结构组成，其中zskiplist用于保存跳跃表信息（比如表头节点、表尾节点、长度），而zskiplistNode则用于表示跳跃表节点</li>
+<li>每个跳跃表节点的层高都是1至32之间的随机数</li>
+<li>在同一个跳跃表中，多个节点可以包含相同的分值，但每个节点的成员对象必须是唯一的</li>
+<li>跳跃表中的节点按照分值大小进行排序，当分值相同时，节点按照成员对象的大小进行排序</li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">余旭东</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yuxudong.top/2020/07/28/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%A1%A8/">https://yuxudong.top/2020/07/28/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%A1%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yuxudong.top" target="_blank">Yu</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Redis/">Redis</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/cover_6.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/07/29/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-intset/"><img class="prev-cover" data-src="/img/cover/cover_7.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Redis数据结构-intset</div></div></a></div><div class="next-post pull-right"><a href="/2020/07/27/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AD%97%E5%85%B8/"><img class="next-cover" data-src="/img/cover/cover_10.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Redis数据结构-字典</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/07/23/Reids数据结构-SDS/" title="Reids数据结构-SDS"><img class="relatedPosts_cover" data-src="/img/cover/cover_6.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-23</div><div class="relatedPosts_title">Reids数据结构-SDS</div></div></a></div><div class="relatedPosts_item"><a href="/2019/11/21/布隆过滤器/" title="布隆过滤器"><img class="relatedPosts_cover" data-src="/img/cover/cover_8.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2019-11-21</div><div class="relatedPosts_title">布隆过滤器</div></div></a></div><div class="relatedPosts_item"><a href="/2019/12/27/源码分析gateway限流/" title="源码分析gateway限流"><img class="relatedPosts_cover" data-src="/img/cover/cover_9.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2019-12-27</div><div class="relatedPosts_title">源码分析gateway限流</div></div></a></div><div class="relatedPosts_item"><a href="/2020/07/27/Redis数据结构-字典/" title="Redis数据结构-字典"><img class="relatedPosts_cover" data-src="/img/cover/cover_10.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-27</div><div class="relatedPosts_title">Redis数据结构-字典</div></div></a></div><div class="relatedPosts_item"><a href="/2020/07/25/Redis数据结构-链表/" title="Redis数据结构-链表"><img class="relatedPosts_cover" data-src="/img/cover/cover_6.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-25</div><div class="relatedPosts_title">Redis数据结构-链表</div></div></a></div><div class="relatedPosts_item"><a href="/2020/07/29/Redis数据结构-intset/" title="Redis数据结构-intset"><img class="relatedPosts_cover" data-src="/img/cover/cover_7.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-29</div><div class="relatedPosts_title">Redis数据结构-intset</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By 余旭东</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button class="translate_chn_to_cht" id="translateLink" title="简繁转换">繁</button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script></body></html>
